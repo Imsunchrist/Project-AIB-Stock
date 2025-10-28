@@ -2,10 +2,10 @@
 
 <div align="center">
 
-![Python](https://img.shields.io/badge/Python-3.
+![Python](https://img.shields.io/badge/Python-3).
 
 
-![Solidity](https://img.shields.io/badge/Solidity-0.8.28-363636?style=for-the-badge&logo=solidity&logoio/badge/Hardhat-2.22.0-FFF100?style=for-the-badge/badge/Ethereum-3C3C3D?style=forio/badge/Gradio-4.44.0-FF
+![Solidity](https://img.shields.io/badge/Solidity-0.8.28-363636?style=for-the-badge&logo=solidity&logoio/badge/Hardhat-2.22.0-FFF100?style=for-the-badge/badge/Ethereum-3C3C3D?style=forio/badge/Gradio-4.44.0-FF)
 
 
 
