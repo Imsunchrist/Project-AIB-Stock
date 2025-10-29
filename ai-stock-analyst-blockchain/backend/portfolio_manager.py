@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from typing import Dict, List, Optional
-from blockchain_integration import BlockchainPortfolioManager
+from backend.blockchain_integration import BlockchainPortfolioManager
 import os
 
 
