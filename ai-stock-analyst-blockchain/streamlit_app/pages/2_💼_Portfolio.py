@@ -12,8 +12,8 @@ from datetime import datetime
 # Add parent directory to import backend
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
-from backend.stock_advisor import StockAdvisor
-from backend.portfolio_manager import BlockchainPortfolioManagerEnhanced
+from stock_advisor import StockAdvisor
+from portfolio_manager import BlockchainPortfolioManagerEnhanced
 
 # Page config
 st.set_page_config(

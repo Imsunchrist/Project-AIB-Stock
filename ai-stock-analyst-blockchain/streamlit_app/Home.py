@@ -11,9 +11,9 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 # Import your existing backend modules
-from backend.stock_advisor import StockAdvisor
-from backend.portfolio_manager import BlockchainPortfolioManagerEnhanced
-from backend.blockchain_integration import BlockchainPortfolioManager
+from stock_advisor import StockAdvisor
+from portfolio_manager import BlockchainPortfolioManagerEnhanced
+from blockchain_integration import BlockchainPortfolioManager
 
 # Page configuration
 st.set_page_config(

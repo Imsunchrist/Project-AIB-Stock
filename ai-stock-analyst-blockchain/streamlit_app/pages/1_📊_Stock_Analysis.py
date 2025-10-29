@@ -10,7 +10,7 @@ import os
 # Add parent directory to import backend
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
-from backend.stock_advisor import StockAdvisor
+from stock_advisor import StockAdvisor
 
 # Page config
 st.set_page_config(
