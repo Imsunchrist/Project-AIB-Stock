@@ -7,11 +7,11 @@ import streamlit as st
 import sys
 import os
 
-# Add parent directory to path to import backend modules
+# Add parent directory to path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-# Import your existing backend modules
-from stock_advisor import StockAdvisor
+# Import backend modules
+from stock_advisor_finnhub import StockAdvisorFinnhub
 from portfolio_manager import BlockchainPortfolioManagerEnhanced
 from blockchain_integration import BlockchainPortfolioManager
 
@@ -65,20 +65,29 @@ st.markdown("""
 # Initialize session state
 def init_session_state():
     """Initialize all session state variables"""
-    if 'advisor' not in st.session_state:
-        st.session_state.advisor = StockAdvisor()
     
+    # Get Finnhub API key from secrets
+    if 'finnhub_key' not in st.session_state:
+        st.session_state.finnhub_key = st.secrets.get("FINNHUB_API_KEY", "d415bmpr01qo6qdf06d0d415bmpr01qo6qdf06dg")
+    
+    # Initialize StockAdvisorFinnhub
+    if 'advisor' not in st.session_state:
+        st.session_state.advisor = StockAdvisorFinnhub(st.session_state.finnhub_key)
+    
+    # Initialize portfolio manager
     if 'portfolio_manager' not in st.session_state:
         st.session_state.portfolio_manager = BlockchainPortfolioManagerEnhanced(
             blockchain_enabled=True
         )
+        # Set the Finnhub advisor for portfolio manager
         st.session_state.portfolio_manager.set_stock_advisor(st.session_state.advisor)
     
+    # Wallet connection status
     if 'wallet_connected' not in st.session_state:
         st.session_state.wallet_connected = False
     
+    # Blockchain configuration
     if 'contract_address' not in st.session_state:
-        # Get from Streamlit secrets (set in deployment)
         st.session_state.contract_address = st.secrets.get("CONTRACT_ADDRESS", "")
     
     if 'rpc_url' not in st.session_state:
@@ -87,6 +96,7 @@ def init_session_state():
     if 'user_id' not in st.session_state:
         st.session_state.user_id = "streamlit_user"
 
+# Call initialization
 init_session_state()
 
 # Header
@@ -100,7 +110,7 @@ with col1:
     st.markdown("""
     <div class="info-box">
         <h3>📊 Stock Analysis</h3>
-        <p>AI-powered technical analysis with RSI, MACD, Bollinger Bands, and more. Get buy/sell/hold recommendations with confidence scores.</p>
+        <p>AI-powered technical analysis with RSI, MACD, Bollinger Bands powered by Finnhub. Get buy/sell/hold recommendations with confidence scores.</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -131,7 +141,7 @@ with col1:
     st.metric(
         label="Supported Stocks",
         value="80+",
-        help="Major US and Indian stocks"
+        help="Major US stocks via Finnhub"
     )
 
 with col2:
@@ -172,11 +182,12 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("""
     **🤖 AI-Powered Analysis**
-    - Real-time stock data from Yahoo Finance
+    - Real-time stock data from Finnhub API
     - Technical indicators (RSI, MACD, Bollinger Bands)
     - AI-generated buy/sell/hold recommendations
     - Confidence scoring (0-100%)
-    - Support for 80+ companies
+    - Support for 80+ US companies
+    - 60 API calls per minute (no rate limiting!)
     
     **💼 Portfolio Management**
     - Add, view, and track investments
@@ -190,14 +201,14 @@ with col2:
     **🔗 Blockchain Integration**
     - Ethereum smart contract storage
     - Sepolia testnet deployment
-    - MetaMask wallet connection
+    - Wallet connection
     - Immutable investment records
     - Gas-optimized transactions
     
     **📊 Advanced Features**
     - Stock comparison tool
     - Market overview dashboard
-    - Search database
+    - Company profiles and news
     - Volatility analysis
     """)
 
@@ -209,10 +220,11 @@ st.subheader("🚀 How to Use")
 with st.expander("1️⃣ Analyze Stocks (No wallet needed)", expanded=True):
     st.markdown("""
     - Navigate to **"📊 Stock Analysis"** page (left sidebar)
-    - Enter any company name (e.g., "Apple", "Microsoft") or symbol (e.g., "AAPL", "MSFT")
+    - Enter any company name or US stock symbol (e.g., "AAPL", "MSFT", "TSLA")
     - Click **"Analyze Stock"** button
     - View AI recommendations, technical indicators, and trading signals
-    - No wallet connection required!
+    - **No wallet connection required!**
+    - **No rate limiting** - powered by Finnhub with 60 calls/minute
     """)
 
 with st.expander("2️⃣ Connect Your Wallet"):
@@ -229,7 +241,7 @@ with st.expander("3️⃣ Manage Portfolio"):
     - Navigate to **"💼 Portfolio"** page
     - Connect wallet first (if not already connected)
     - Fill in investment details:
-      - Company name
+      - Company name (e.g., "AAPL", "MSFT")
       - Number of shares
       - Purchase price
       - Purchase date
@@ -246,11 +258,12 @@ st.subheader("🔗 Blockchain Information")
 col1, col2 = st.columns(2)
 
 with col1:
+    contract_display = f"`{st.session_state.contract_address[:10]}...`" if st.session_state.contract_address else "Not configured"
     st.markdown(f"""
     **Network Details:**
     - Network: Sepolia Testnet
     - Chain ID: 11155111
-    - Contract Address: `{st.session_state.contract_address[:10]}...` if st.session_state.contract_address else "Not configured"
+    - Contract Address: {contract_display}
     - [View on Etherscan](https://sepolia.etherscan.io/address/{st.session_state.contract_address})
     """)
 
@@ -269,16 +282,43 @@ with col2:
 
 st.divider()
 
+# API Info
+st.subheader("⚡ API Information")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.markdown("""
+    **Stock Data Provider:**
+    - **API**: Finnhub (Professional-grade)
+    - **Rate Limit**: 60 calls/minute
+    - **Data Quality**: Real-time, high accuracy
+    - **Coverage**: US stocks, real-time quotes
+    - **Status**: ✅ Active
+    """)
+
+with col2:
+    st.markdown("""
+    **Why Finnhub?**
+    - ✅ No rate limiting issues
+    - ✅ Reliable and fast
+    - ✅ Real-time data
+    - ✅ Company profiles included
+    - ✅ Free tier is generous
+    """)
+
+st.divider()
+
 # Footer
 st.markdown("""
 ---
 <div style='text-align: center'>
-    <p><strong>AI Stock Analyst v1.0.0</strong> | Built with ❤️ by TheHashiramaSenju</p>
-    <p>Powered by Streamlit, Web3.py, yfinance, and Ethereum blockchain</p>
+    <p><strong>AI Stock Analyst v2.0.0</strong> | Built with ❤️ by TheHashiramaSenju</p>
+    <p>Powered by Streamlit, Finnhub API, Web3.py, and Ethereum blockchain</p>
     <p>
         <a href="https://github.com/TheHashiramaSenju" target="_blank">GitHub</a> • 
         <a href="https://sepolia.etherscan.io/address/{}" target="_blank">Contract</a> • 
-        <a href="https://streamlit.io" target="_blank">Streamlit Cloud</a>
+        <a href="https://finnhub.io" target="_blank">Finnhub API</a>
     </p>
 </div>
 """.format(st.session_state.contract_address), unsafe_allow_html=True)
@@ -291,7 +331,8 @@ with st.sidebar:
         st.info("Connect your wallet to use blockchain features")
         
         st.markdown("**Network:** Sepolia Testnet")
-        st.markdown(f"**Contract:** `{st.session_state.contract_address[:10]}...`" if st.session_state.contract_address else "**Contract:** Not configured")
+        contract_display = f"`{st.session_state.contract_address[:10]}...`" if st.session_state.contract_address else "Not configured"
+        st.markdown(f"**Contract:** {contract_display}")
         
         with st.form("wallet_form"):
             private_key = st.text_input(
@@ -309,7 +350,7 @@ with st.sidebar:
                             result = st.session_state.portfolio_manager.connect_blockchain(
                                 private_key,
                                 st.session_state.contract_address,
-                                None  # Will use contract_abi.json if available
+                                None
                             )
                             
                             if "Connected Successfully" in result:
@@ -327,7 +368,11 @@ with st.sidebar:
         
         if st.session_state.portfolio_manager.blockchain and st.session_state.portfolio_manager.blockchain.account:
             wallet_addr = st.session_state.portfolio_manager.blockchain.account.address
-            balance = st.session_state.portfolio_manager.blockchain.get_balance()
+            
+            try:
+                balance = st.session_state.portfolio_manager.blockchain.get_balance()
+            except:
+                balance = 0.0
             
             st.markdown(f"""
             **Address:**  
@@ -347,5 +392,6 @@ with st.sidebar:
     **📚 Resources:**
     - [Get Testnet ETH](https://sepoliafaucet.com/)
     - [View Contract](https://sepolia.etherscan.io)
-    - [GitHub Repo](https://github.com)
+    - [Finnhub API](https://finnhub.io)
+    - [GitHub Repo](https://github.com/TheHashiramaSenju)
     """)

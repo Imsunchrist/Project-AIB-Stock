@@ -241,7 +241,7 @@ with col2:
     - [View on Etherscan](https://sepolia.etherscan.io/address/{contract_address})
     - [Sepolia Faucet](https://sepoliafaucet.com/)
     - [Alchemy Faucet](https://www.alchemy.com/faucets/ethereum-sepolia)
-    - [GitHub Repository](https://github.com/TheHashiramaSenju)
+    - [GitHub Repository](https://github.com/Bhoomika M)
     """)
 
 st.divider()
@@ -358,7 +358,7 @@ st.divider()
 st.header("👨‍💻 About the Developer")
 
 st.markdown("""
-**TheHashiramaSenju**
+**Bhoomika M**
 
 - 🎓 Computer Science Student, Tamil Nadu, India
 - 💻 Blockchain Developer & Data Scientist
@@ -366,8 +366,8 @@ st.markdown("""
 - 🔧 Tech Stack: Python, Solidity, JavaScript, C
 
 **Connect:**
-- GitHub: [@TheHashiramaSenju](https://github.com/TheHashiramaSenju)
-- Portfolio: [View Projects](https://github.com/TheHashiramaSenju)
+- GitHub: [@Bhoomika M](https://github.com/Bhoomika M)
+- Portfolio: [View Projects](https://github.com/Bhoomika M)
 
 **This Project:**
 - Version: 1.0.0
@@ -384,9 +384,9 @@ st.markdown("""
 <div style='text-align: center'>
     <h3>🚀 AI Stock Analyst with Blockchain</h3>
     <p>Built with ❤️ using Streamlit, Web3.py, yfinance, and Ethereum</p>
-    <p><strong>© 2025 TheHashiramaSenju | MIT License</strong></p>
+    <p><strong>© 2025 Bhoomika M | MIT License</strong></p>
     <p>
-        <a href="https://github.com/TheHashiramaSenju" target="_blank">GitHub</a> • 
+        <a href="https://github.com/Bhoomika M" target="_blank">GitHub</a> • 
         <a href="https://streamlit.io" target="_blank">Streamlit</a> • 
         <a href="https://ethereum.org" target="_blank">Ethereum</a>
     </p>

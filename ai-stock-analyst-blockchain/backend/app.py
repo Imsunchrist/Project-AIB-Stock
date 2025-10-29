@@ -556,7 +556,7 @@ with gr.Blocks(
             - Ethereum blockchain
             
             ### Developer
-            **GitHub:** TheHashiramaSenju
+            **GitHub:** Bhoomika M
             **Version:** 1.0.0
             
             ---
@@ -566,7 +566,7 @@ with gr.Blocks(
     
     gr.Markdown("""
     ---
-    © 2025 AI Stock Analyst | Built with ❤️ by TheHashiramaSenju
+    © 2025 AI Stock Analyst | Built with ❤️ by Bhoomika M
     """)
 
 

@@ -910,9 +910,9 @@ SOFTWARE.
 
 ## 👨‍💻 Author
 
-**TheHashiramaSenju**
+**Bhoomika M**
 
-- GitHub: [@TheHashiramaSenju](https://github.com/TheHashiramaSenju)
+- GitHub: [@Bhoomika M](https://github.com/Bhoomika M)
 - Project: AI Stock Analyst with Blockchain Integration
 - Version: 1.0.0
 - Contact: Via GitHub Issues
@@ -925,8 +925,8 @@ For issues, questions, or suggestions:
 
 - 📧 **Email**: Create a GitHub Issue
 - 💬 **Discord**: Coming soon
-- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/TheHashiramaSenju/ai-stock-analyst-blockchain/issues)
-- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/TheHashiramaSenju/ai-stock-analyst-blockchain/discussions)
+- 🐛 **Bug Reports**: [GitHub Issues](https://github.com/Bhoomika M/ai-stock-analyst-blockchain/issues)
+- 💡 **Feature Requests**: [GitHub Discussions](https://github.com/Bhoomika M/ai-stock-analyst-blockchain/discussions)
 
 ***
 

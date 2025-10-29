@@ -18,7 +18,7 @@
     "portfolio",
     "defi"
   ],
-  "author": "TheHashiramaSenju",
+  "author": "Bhoomika M",
   "license": "MIT",
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",

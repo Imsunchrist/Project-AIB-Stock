@@ -14,6 +14,19 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from backend.stock_advisor import StockAdvisor
 from backend.portfolio_manager import BlockchainPortfolioManagerEnhanced
 from backend.blockchain_integration import BlockchainPortfolioManager
+from stock_advisor_finnhub import StockAdvisorFinnhub
+
+# Initialize session state
+def init_session_state():
+    """Initialize all session state variables"""
+    
+    # Get Finnhub API key from secrets
+    if 'finnhub_key' not in st.session_state:
+        st.session_state.finnhub_key = st.secrets.get("FINNHUB_API_KEY", "d415bmpr01qo6qdf06d0d415bmpr01qo6qdf06dg")
+    
+    if 'advisor' not in st.session_state:
+        st.session_state.advisor = StockAdvisorFinnhub(st.session_state.finnhub_key)
+
 
 # Page configuration
 st.set_page_config(
@@ -22,9 +35,9 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        'Get Help': 'https://github.com/TheHashiramaSenju',
-        'Report a bug': 'https://github.com/TheHashiramaSenju',
-        'About': '# AI Stock Analyst with Blockchain\nBuilt by TheHashiramaSenju'
+        'Get Help': 'https://github.com/Bhoomika M',
+        'Report a bug': 'https://github.com/Bhoomika M',
+        'About': '# AI Stock Analyst with Blockchain\nBuilt by Bhoomika M'
     }
 )
 
@@ -273,10 +286,10 @@ st.divider()
 st.markdown("""
 ---
 <div style='text-align: center'>
-    <p><strong>AI Stock Analyst v1.0.0</strong> | Built with ❤️ by TheHashiramaSenju</p>
+    <p><strong>AI Stock Analyst v1.0.0</strong> | Built with ❤️ by Bhoomika M</p>
     <p>Powered by Streamlit, Web3.py, yfinance, and Ethereum blockchain</p>
     <p>
-        <a href="https://github.com/TheHashiramaSenju" target="_blank">GitHub</a> • 
+        <a href="https://github.com/Bhoomika M" target="_blank">GitHub</a> • 
         <a href="https://sepolia.etherscan.io/address/{}" target="_blank">Contract</a> • 
         <a href="https://streamlit.io" target="_blank">Streamlit Cloud</a>
     </p>
