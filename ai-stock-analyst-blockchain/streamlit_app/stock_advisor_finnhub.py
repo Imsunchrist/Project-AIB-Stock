@@ -4,8 +4,7 @@ AI-powered stock analysis with Finnhub API
 Complete professional implementation with full AI analysis
 """
 
-from alpha_vantage.timeseries import TimeSeries
-from alpha_vantage.techindicators import TechIndicators
+
 import finnhub
 import pandas as pd
 import numpy as np
