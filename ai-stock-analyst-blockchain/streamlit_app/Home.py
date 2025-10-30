@@ -22,9 +22,9 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded",
     menu_items={
-        'Get Help': 'https://github.com/TheHashiramaSenju',
-        'Report a bug': 'https://github.com/TheHashiramaSenju',
-        'About': '# AI Stock Analyst with Blockchain\nBuilt by TheHashiramaSenju'
+        'Get Help': 'https://github.com/TheBhoomikaM',
+        'Report a bug': 'https://github.com/TheBhoomikaM',
+        'About': '# AI Stock Analyst with Blockchain\nBuilt by TheBhoomikaM'
     }
 )
 
@@ -370,10 +370,10 @@ st.divider()
 st.markdown("""
 ---
 <div style='text-align: center'>
-    <p><strong>AI Stock Analyst v2.0.0</strong> | Built with ❤️ by TheHashiramaSenju</p>
+    <p><strong>AI Stock Analyst v2.0.0</strong> | Built with ❤️ by TheBhoomikaM</p>
     <p>Powered by Streamlit, Finnhub API, Web3.py, and Ethereum blockchain</p>
     <p>
-        <a href="https://github.com/TheHashiramaSenju" target="_blank">GitHub</a> • 
+        <a href="https://github.com/TheBhoomikaM" target="_blank">GitHub</a> • 
         <a href="https://sepolia.etherscan.io/address/{}" target="_blank">Smart Contract</a> • 
         <a href="https://finnhub.io" target="_blank">Finnhub API</a>
     </p>
@@ -454,6 +454,6 @@ with st.sidebar:
     - [Get Testnet ETH](https://sepoliafaucet.com/)
     - [View Contract](https://sepolia.etherscan.io)
     - [Finnhub API](https://finnhub.io)
-    - [GitHub Repository](https://github.com/TheHashiramaSenju)
+    - [GitHub Repository](https://github.com/TheBhoomikaM)
     - [Documentation](https://docs.finnhub.io/)
     """)
