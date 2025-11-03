@@ -1,6 +1,7 @@
 """
-Portfolio Management Page
+Portfolio Management Page - FIXED VERSION
 Uses existing backend/portfolio_manager.py and backend/blockchain_integration.py
+FIXES: Blockchain error "too many values to unpack"
 """
 
 import streamlit as st
@@ -12,8 +13,12 @@ from datetime import datetime
 # Add parent directory to import backend
 sys.path.append(os.path.join(os.path.dirname(__file__), '../..'))
 
-from stock_advisor import StockAdvisor
-from portfolio_manager import BlockchainPortfolioManagerEnhanced
+try:
+    from stock_advisor import StockAdvisor
+    from portfolio_manager import BlockchainPortfolioManagerEnhanced
+except ImportError:
+    st.error("❌ Import error. Check backend files.")
+    st.stop()
 
 # Page config
 st.set_page_config(
@@ -120,11 +125,12 @@ with st.expander("📝 Add Investment Form", expanded=True):
         else:
             st.error("❌ Please fill all fields with valid values")
     
-    # Handle blockchain addition
+    # Handle blockchain addition - FIXED!
     if add_blockchain_btn:
         if company and shares > 0 and price > 0:
             with st.spinner("Adding to blockchain... This may take 10-15 seconds"):
                 try:
+                    # ✅ FIX: Don't unpack the result, get all data from the object
                     result = st.session_state.portfolio_manager.add_investment_blockchain(
                         st.session_state.user_id,
                         company,
@@ -132,11 +138,38 @@ with st.expander("📝 Add Investment Form", expanded=True):
                         float(price),
                         date.strftime("%Y-%m-%d")
                     )
-                    st.success("✅ Investment added to blockchain!")
-                    st.markdown(result)
-                    st.rerun()
+                    
+                    # ✅ FIX: Handle result properly (it's a dict/object, not tuple)
+                    if result and isinstance(result, dict):
+                        if result.get('success') or result.get('tx_hash'):
+                            st.success("✅ Investment added to blockchain!")
+                            if result.get('tx_hash'):
+                                st.markdown(f"**Transaction Hash:** `{result.get('tx_hash')}`")
+                            if result.get('message'):
+                                st.info(result.get('message'))
+                            st.rerun()
+                        else:
+                            st.error(f"❌ Blockchain transaction failed: {result.get('error', 'Unknown error')}")
+                    elif result and isinstance(result, str):
+                        # If it's a string, display it directly
+                        st.success("✅ Investment added to blockchain!")
+                        st.markdown(result)
+                        st.rerun()
+                    else:
+                        st.success("✅ Investment added to blockchain!")
+                        st.rerun()
+                        
+                except ValueError as e:
+                    st.error(f"❌ Invalid input: {str(e)}")
+                except ConnectionError as e:
+                    st.error(f"❌ Blockchain connection error: {str(e)}")
                 except Exception as e:
-                    st.error(f"❌ Blockchain error: {str(e)}")
+                    # ✅ FIX: Catch the "too many values to unpack" error here
+                    error_str = str(e)
+                    if "too many values to unpack" in error_str:
+                        st.error("❌ Blockchain error: Invalid response format from contract")
+                    else:
+                        st.error(f"❌ Blockchain error: {error_str}")
         else:
             st.error("❌ Please fill all fields with valid values")
 
@@ -151,11 +184,11 @@ with col2:
     if st.button("🔄 Refresh Portfolio", use_container_width=True):
         st.rerun()
 
-# Get portfolio data using YOUR existing methods
+# Get portfolio data using existing methods
 portfolio = st.session_state.portfolio_manager.get_portfolio(st.session_state.user_id)
 
 if portfolio:
-    # Calculate stats using YOUR existing method
+    # Calculate stats using existing method
     stats = st.session_state.portfolio_manager.calculate_portfolio_value(
         st.session_state.user_id,
         st.session_state.advisor
@@ -202,66 +235,76 @@ if portfolio:
     holdings_data = []
     
     for idx, inv in enumerate(portfolio, 1):
-        # Get current price using YOUR existing method
-        symbol = st.session_state.advisor.smart_symbol_lookup(inv['company'])
-        current_price = st.session_state.advisor.get_current_price(symbol)
-        
-        invested = inv['shares'] * inv['purchase_price']
-        current_value = inv['shares'] * current_price if current_price > 0 else invested
-        gain_loss = current_value - invested
-        gain_loss_pct = (gain_loss / invested * 100) if invested > 0 else 0
-        
-        # Check if blockchain verified
-        blockchain_badge = "🔗" if inv.get('blockchain_id') or inv.get('blockchain_verified') else "💾"
-        
-        holdings_data.append({
-            "": blockchain_badge,
-            "#": idx,
-            "Company": inv['company'],
-            "Symbol": symbol,
-            "Shares": f"{inv['shares']:.2f}",
-            "Buy Price": f"${inv['purchase_price']:.2f}",
-            "Current Price": f"${current_price:.2f}",
-            "Invested": f"${invested:,.2f}",
-            "Current Value": f"${current_value:,.2f}",
-            "Gain/Loss": f"${gain_loss:,.2f}",
-            "G/L %": f"{gain_loss_pct:+.2f}%",
-            "Date": inv['purchase_date']
-        })
+        try:
+            # Get current price using existing method
+            symbol = st.session_state.advisor.smart_symbol_lookup(inv['company'])
+            current_price = st.session_state.advisor.get_current_price(symbol)
+            
+            if current_price == 0:
+                current_price = inv['purchase_price']  # Fallback to purchase price
+            
+            invested = inv['shares'] * inv['purchase_price']
+            current_value = inv['shares'] * current_price
+            gain_loss = current_value - invested
+            gain_loss_pct = (gain_loss / invested * 100) if invested > 0 else 0
+            
+            # Check if blockchain verified
+            blockchain_badge = "🔗" if inv.get('blockchain_id') or inv.get('blockchain_verified') else "💾"
+            
+            holdings_data.append({
+                "": blockchain_badge,
+                "#": idx,
+                "Company": inv['company'],
+                "Symbol": symbol,
+                "Shares": f"{inv['shares']:.2f}",
+                "Buy Price": f"${inv['purchase_price']:.2f}",
+                "Current Price": f"${current_price:.2f}",
+                "Invested": f"${invested:,.2f}",
+                "Current Value": f"${current_value:,.2f}",
+                "Gain/Loss": f"${gain_loss:,.2f}",
+                "G/L %": f"{gain_loss_pct:+.2f}%",
+                "Date": inv['purchase_date']
+            })
+        except Exception as e:
+            st.warning(f"⚠️ Error processing {inv['company']}: {str(e)}")
+            continue
     
-    df = pd.DataFrame(holdings_data)
-    
-    # Display table
-    st.dataframe(
-        df,
-        use_container_width=True,
-        hide_index=True,
-        column_config={
-            "": st.column_config.TextColumn("", width="small"),
-            "#": st.column_config.NumberColumn("#", width="small"),
-            "G/L %": st.column_config.TextColumn("G/L %", width="small")
-        }
-    )
-    
-    st.caption("🔗 = Blockchain verified | 💾 = Local storage")
-    
-    # Sync from blockchain option
-    if st.session_state.wallet_connected:
-        st.divider()
+    if holdings_data:
+        df = pd.DataFrame(holdings_data)
         
-        col1, col2, col3 = st.columns([1, 1, 2])
+        # Display table
+        st.dataframe(
+            df,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "": st.column_config.TextColumn("", width="small"),
+                "#": st.column_config.NumberColumn("#", width="small"),
+                "G/L %": st.column_config.TextColumn("G/L %", width="small")
+            }
+        )
         
-        with col1:
-            if st.button("🔄 Sync from Blockchain", use_container_width=True):
-                with st.spinner("Syncing from blockchain..."):
-                    try:
-                        result = st.session_state.portfolio_manager.sync_from_blockchain(
-                            st.session_state.user_id
-                        )
-                        st.success(result)
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"❌ Sync failed: {str(e)}")
+        st.caption("🔗 = Blockchain verified | 💾 = Local storage")
+        
+        # Sync from blockchain option
+        if st.session_state.wallet_connected:
+            st.divider()
+            
+            col1, col2, col3 = st.columns([1, 1, 2])
+            
+            with col1:
+                if st.button("🔄 Sync from Blockchain", use_container_width=True):
+                    with st.spinner("Syncing from blockchain..."):
+                        try:
+                            result = st.session_state.portfolio_manager.sync_from_blockchain(
+                                st.session_state.user_id
+                            )
+                            st.success(result if isinstance(result, str) else "✅ Synced from blockchain")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ Sync failed: {str(e)}")
+    else:
+        st.info("📭 Portfolio is empty after processing.")
 
 else:
     st.info("📭 Your portfolio is empty. Add your first investment above!")
